@@ -18,6 +18,11 @@ function Header(props) {
 
 export default function Generator() {
   const [showModal, setShowModal] = useState(false)
+  const [poison, setPoison] = useState('individual')
+  const [muscles, setMuscles] = useState([])
+  const [goal, setGoal] = useState('strength_power')
+  
+  
 
     // let showModal = false
 
@@ -33,7 +38,9 @@ export default function Generator() {
        
        {Object.keys(WORKOUTS).map((type, typeIndex) => {
         return (
-          <button className='bg-slate-950 border border-blue-400 duration-200 hover:border-blue-600 py-3 rounded-lg' key={typeIndex}>
+          <button onClick={() => {
+            setPoison(type)
+          }  } className={'bg-slate-950 border  duration-200 px-4 hover:border-blue-600 py-3 rounded-lg ' + (type === poison ? ' border-blue-600 text-blue-300' : ' border-blue-400')} key={typeIndex}>
             <p className='capitalize'>{type.replaceAll('_'," ")}</p>
           </button>
         )
@@ -49,6 +56,20 @@ export default function Generator() {
          {showModal && (
           <div>modal</div>
          )}
+       </div>
+
+       <Header index={'03'} title={'Become juggernaut'} description={"Select your ultimate objective"} />
+       <div className='grid grid-cols-3 gap-4'>
+       
+       {Object.keys(SCHEMES).map((scheme, schemeIndex) => {
+        return (
+          <button onClick={() => {
+            setGoal(scheme)
+          }  } className={'bg-slate-950 border  duration-200 px-4 hover:border-blue-600 py-3 rounded-lg ' + (scheme === goal ? ' border-blue-600 text-blue-300' : ' border-blue-400')} key={schemeIndex}>
+            <p className='capitalize'>{scheme.replaceAll('_'," ")}</p>
+          </button>
+        )
+       })}
        </div>
     </SectionWrapper>
   )
