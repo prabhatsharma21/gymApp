@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import SectionWrapper from './SectionWrapper'
 import { SCHEMES, WORKOUTS } from '../utils/swoldier'
+import Button from './Button'
 
 function Header(props) {
   const { index, title, description } = props
@@ -17,10 +18,9 @@ function Header(props) {
 }
 
 export default function Generator(props) {
+  const { muscles, setMuscles, poison, setPoison, goal, setGoal, updateWorkout } = props
   const [showModal, setShowModal] = useState(false)
-  const [poison, setPoison] = useState('individual')
-  const [muscles, setMuscles] = useState([])
-  const [goal, setGoal] = useState('strength_power')
+  
   
   
 
@@ -52,6 +52,9 @@ export default function Generator(props) {
       }
       
         setMuscles([...muscles, muscleGroup])
+        if(muscles.length === 3){
+          setShowModal(false)
+        }
 
     
 
@@ -99,7 +102,7 @@ export default function Generator(props) {
        </div>
 
        <Header index={'03'} title={'Become juggernaut'} description={"Select your ultimate objective"} />
-       <div className='grid grid-cols-3 gap-4'>
+       <div className='grid grid-cols-1 sm:grid-cols-3 gap-4'>
        
        {Object.keys(SCHEMES).map((scheme, schemeIndex) => {
         return (
@@ -111,7 +114,10 @@ export default function Generator(props) {
         )
        })}
        </div>
+
+       <Button func={updateWorkout} text ={"Formulate"}></Button>
        
     </SectionWrapper>
+     
   )
 }
