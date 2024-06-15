@@ -80,26 +80,25 @@ export default function Generator(props) {
        </div>
 
        <Header index={'02'} title={'Lock on targets'} description={"Select the muscles judged for annihilation."} />
-       <div className='bg-slate-950  border border-solid border-blue-400 rounded-lg flex flex-col'>
-         <button onClick={toggleModal} className='relative py-3 flex items-center justify-center'>
-          <p className='capitalize '>{muscles.length == 0 ? 'Select muscle groups' : muscles.join(' ')}</p>
-          <i className="fa-solid absolute right-3 top-1/2 -translate-y-1/2 fa-angles-down"></i>
-         </button>
-         {showModal && (
-          <div className='flex flex-col px-3 pb-3' >
-            {(poison === 'individual' ? WORKOUTS[poison] : Object.keys(WORKOUTS[poison])).map((muscleGroup, muscleGroupIndex) => {
-               return (
-                <button onClick={() => {
-                  updateMuscles(muscleGroup)
-              }} key={muscleGroupIndex} className={'hover:text-blue-400 duration-200 ' + (muscles.includes(muscleGroup) ? ' text-blue-400' : ' ')}>
-                  <p className='uppercase py-0.5'>{muscleGroup.replaceAll('_', ' ')}</p>
-              </button>
-               )
-            }
-            ) }
-          </div>
-         )}
-       </div>
+       <div className='bg-slate-950 border border-solid border-blue-400 rounded-lg flex flex-col'>
+      <button onClick={toggleModal} className='genz relative py-3 flex items-center justify-center'>
+        <p className='capitalize'>{muscles.length === 0 ? 'Select muscle groups' : muscles.join(' ')}</p>
+        <i className="fa-solid absolute right-3 top-1/2 -translate-y-1/2 fa-angles-down"></i>
+      </button>
+      <div className={`transition-all duration-500 ease-in-out ${showModal ? 'opacity-100 max-h-screen' : 'opacity-0 max-h-0 overflow-hidden'}`}>
+        <div className='flex flex-col px-3 pb-3'>
+          {(poison === 'individual' ? WORKOUTS[poison] : Object.keys(WORKOUTS[poison])).map((muscleGroup, muscleGroupIndex) => (
+            <button
+              onClick={() => updateMuscles(muscleGroup)}
+              key={muscleGroupIndex}
+              className={'hover:text-blue-400 duration-200 ' + (muscles.includes(muscleGroup) ? ' text-blue-400' : ' ')}
+            >
+              <p className='uppercase py-0.5'>{muscleGroup.replaceAll('_', ' ')}</p>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
 
        <Header index={'03'} title={'Become juggernaut'} description={"Select your ultimate objective"} />
        <div className='grid grid-cols-1 sm:grid-cols-3 gap-4'>
