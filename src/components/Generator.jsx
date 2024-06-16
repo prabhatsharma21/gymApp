@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'; // Line 1
+
 import SectionWrapper from './SectionWrapper'
 import { SCHEMES, WORKOUTS } from '../utils/swoldier'
 import Button from './Button'
@@ -20,6 +21,22 @@ function Header(props) {
 export default function Generator(props) {
   const { muscles, setMuscles, poison, setPoison, goal, setGoal, updateWorkout } = props
   const [showModal, setShowModal] = useState(false)
+  const modalRef = useRef(null); // Line 18
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (modalRef.current && !modalRef.current.contains(event.target) && !event.target.classList.contains('genz')) {
+        setShowModal(false);
+      }
+    }
+  
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [modalRef]); // Lines 19-29
+  
+
   
   
   
@@ -80,7 +97,8 @@ export default function Generator(props) {
        </div>
 
        <Header index={'02'} title={'Lock on targets'} description={"Select the muscles judged for annihilation."} />
-       <div className='bg-slate-950 border border-solid border-blue-400 rounded-lg flex flex-col'>
+       <div className='bg-slate-950 border border-solid border-blue-400 rounded-lg flex flex-col' ref={modalRef}> 
+
       <button onClick={toggleModal} className='genz relative py-3 flex items-center justify-center'>
         <p className='capitalize'>{muscles.length === 0 ? 'Select muscle groups' : muscles.join(' ')}</p>
         <i className="fa-solid absolute right-3 top-1/2 -translate-y-1/2 fa-angles-down"></i>
